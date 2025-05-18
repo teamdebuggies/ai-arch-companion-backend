@@ -35,9 +35,30 @@ export default class GithubController {
   }
 
   public async createProjectRepository({ request, response }: HttpContext) {
-    const { repositoryName, artifacts } = request.only(['repositoryName', 'artifacts'])
+    const {
+      architecturalDecisionRecord,
+      functionalDiagram,
+      infrastructureDiagram,
+      rationale,
+      terraform,
+    } = request.only([
+      'architecturalDecisionRecord',
+      'functionalDiagram',
+      'infrastructureDiagram',
+      'rationale',
+      'terraform',
+    ])
     try {
-      const result = await this.githubService.createProjectRepository(repositoryName, artifacts)
+      const result = await this.githubService.createProjectRepository(
+        `TEST${Math.random().toString(36).substring(2, 15)}`,
+        {
+          architecturalDecisionRecord,
+          functionalDiagram,
+          infrastructureDiagram,
+          rationale,
+          terraform,
+        }
+      )
       return response.created(result) // Use 201 Created for successful resource creation
     } catch (error) {
       return response.badRequest({ error: error.message })

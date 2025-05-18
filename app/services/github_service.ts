@@ -32,6 +32,7 @@ export default class GithubService {
   }
 
   async pushFileToRepository(repositoryName: string, filePath: string, content: string) {
+    console.log('pushFileToRepository', repositoryName, filePath, content)
     const response = await this.octokit.rest.repos.createOrUpdateFileContents({
       owner: this.owner,
       repo: repositoryName,
@@ -48,13 +49,13 @@ export default class GithubService {
 
     // 2. Prepare README content
     const readmeContent = `
-# ${repositoryName}
+      # ${repositoryName}
 
-## Rationale
-${artifacts.rationale}
+      ## Rationale
+      ${artifacts.rationale}
 
-## Architectural Decision Record (ADR)
-${artifacts.architecturalDecisionRecord}
+      ## Architectural Decision Record (ADR)
+      ${artifacts.architecturalDecisionRecord}
     `
 
     // 3. Push files
